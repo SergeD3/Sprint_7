@@ -36,7 +36,3 @@ def get_random_order():
     order_copy['lastName'] = last_name
     order_copy['metroStation'] = station_number
     return order_copy
-
-
-if __name__ == '__main__':
-    print(get_random_courier_credentials())

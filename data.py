@@ -16,10 +16,18 @@ ORDER_REQUEST_BODY = {
     "color": []
 }
 
+ORDER_PARAMETERS = {
+    'courierId': '',
+    'nearestStation': '',
+    'limit': '',
+    'page': ''
+}
+
 COMMON_HEADERS = {'Content-Type': 'application/json'}
 BASE_URL = 'https://qa-scooter.praktikum-services.ru/api/v1'
 
+# курьер
 PATH_COURIER_LOGIN = '/courier/login'
 PATH_COURIER_CREATE = '/courier'
-
-PATH_ORDER_CREATE = '/api/v1/orders'
+# заказ
+PATH_ORDER_CREATE = '/orders'

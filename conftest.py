@@ -1,10 +1,12 @@
 import pytest
 import requests
+
+import data
 from helpers import helper
 
 
 @pytest.fixture
-def courier():
+def create_courier():
     login_pass = []
     login = helper.generate_random_string(10)
     password = helper.generate_random_string(10)
@@ -25,3 +27,12 @@ def courier():
         login_pass.append(first_name)
 
     return login_pass
+
+
+@pytest.fixture
+def login_courier():
+    response = requests.post(
+        url=f"{data.BASE_URL}{data.PATH_COURIER_LOGIN}",
+        data=data.COURIER_CREDENTIALS
+    )
+    return response.json()['id']
