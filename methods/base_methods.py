@@ -22,6 +22,7 @@ class BaseMethods:
     def post_method(url, req_path, req_data='', req_json=''):
         body_data = json.dumps(req_data)
         body_json = json.dumps(req_json)
+        print(f"{url}{req_path}")
         response = requests.post(
             url=f"{url}{req_path}",
             headers=data.COMMON_HEADERS,

@@ -28,6 +28,6 @@ BASE_URL = 'https://qa-scooter.praktikum-services.ru/api/v1'
 
 # курьер
 PATH_COURIER_LOGIN = '/courier/login'
-PATH_COURIER_CREATE = '/courier'
+PATH_COURIER_CREATE = '/courier/'
 # заказ
 PATH_ORDER_CREATE = '/orders'

@@ -1,3 +1,5 @@
+import json
+
 import pytest
 import requests
 
@@ -6,7 +8,25 @@ from helpers import helper
 
 
 @pytest.fixture
-def create_courier():
+def login_courier():
+    def login(credentials=None):
+        req_data = json.dumps(credentials) if credentials else json.dumps(data.COURIER_CREDENTIALS)
+        response = requests.post(
+            url=f"{data.BASE_URL}{data.PATH_COURIER_LOGIN}",
+            headers=data.COMMON_HEADERS,
+            data=req_data
+        )
+
+        if response.ok:
+            return response.json()['id']
+        else:
+            print(f"Ошибка попытки аутентификации.")
+
+    return login
+
+
+@pytest.fixture
+def create_courier(login_courier):
     login_pass = []
     login = helper.generate_random_string(10)
     password = helper.generate_random_string(10)
@@ -18,21 +38,18 @@ def create_courier():
         "password": password,
         "firstName": first_name
     }
+    payload_json = json.dumps(payload)
+    response = requests.post(f"{data.BASE_URL}{data.PATH_COURIER_CREATE}",
+                             data=payload_json,
+                             headers=data.COMMON_HEADERS
+                             )
 
-    response = requests.post('https://qa-scooter.praktikum-services.ru/api/v1/courier', data=payload)
-
-    if response.status_code == response.ok:
+    if response.ok:
         login_pass.append(login)
         login_pass.append(password)
         login_pass.append(first_name)
 
-    return login_pass
+    yield login_pass
 
-
-@pytest.fixture
-def login_courier():
-    response = requests.post(
-        url=f"{data.BASE_URL}{data.PATH_COURIER_LOGIN}",
-        data=data.COURIER_CREDENTIALS
-    )
-    return response.json()['id']
+    courier_id = login_courier(payload)
+    requests.delete(url=f"{data.BASE_URL}{data.PATH_COURIER_CREATE}{courier_id}")

@@ -20,7 +20,8 @@ class TestCourierAuthorization(CourierMethods):
     ))
     def test_courier_auth_without_required_fields(self, credentials):
         response = self.post_login_courier_method(credentials)
-        assert response.status_code == 400 and response.json()["message"] == "Недостаточно данных для входа"
+        text = "Недостаточно данных для входа"
+        assert response.status_code == 400 and response.json()["message"] == text
 
     @allure.title('Проверка невозможности аутентификации под несуществующим курьером')
     def test_not_existing_courier_auth(self):
